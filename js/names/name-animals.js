@@ -1,0 +1,52 @@
+if (!window.NAMES) {
+    NAMES = {};
+}
+
+NAMES['animals'] = {
+    "name": "Animals",
+    "source": "http://tamilcube.com/res/indian_animals.html",
+    "values": [
+        "Ant",
+        "Bear",
+        "Buffalo",
+        "Butterfly",
+        "Camel",
+        "Cat",
+        "Chameleon",
+        "Chimpanzee",
+        "Cow",
+        "Crocodile",
+        "Crab",
+        "Deer",
+        "Dog",
+        "Donkey",
+        "Elephant",
+        "Fox",
+        "Frog",
+        "Goat",
+        "Gorilla",
+        "Horse",
+        "Hippopotamus",
+        "Jackal",
+        "Lion",
+        "Lizard",
+        "Mongoose",
+        "Monkey",
+        "mosquito",
+        "Mouse",
+        "Ox",
+        "Pig",
+        "Polar Bear",
+        "Rabbit",
+        "Rat",
+        "Rhinoceros",
+        "Sheep",
+        "Snail",
+        "Snake",
+        "Spider",
+        "Squirrel",
+        "Tiger",
+        "Turtle",
+        "Wolf"
+    ]
+};

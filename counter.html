@@ -1,0 +1,550 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>proton.js-background-particle</title>
+    <meta name="viewport" id="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="author" content="PDT - Kieran Dang"><!-- Load CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet" type="text/css">
+    <!--
+    <link href="https://fonts.googleapis.com/css?family=Roboto:Roboto:400,500|Montserrat" rel="stylesheet" type="text/css">
+    -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.css" rel="stylesheet"
+          type="text/css">
+    <!--[if lt IE 9]>
+    <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<!-- Local fall-back copy -->
+	<script type="text/javascript">
+		if (!window.jQuery) { 
+			document.write('<script type="text/javascript" src="js/jquery-3.3.1.min.js"><\/script>');
+		}
+	</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.js"></script>
+	<script type="text/javascript">
+		if (!window.FlipClock) {
+			document.write('<script type="text/javascript" src="js/flipclock-0.7.8.min.js"><\/script>');
+			document.write('<link href="css/flipclock-0.7.8.min.css" rel="stylesheet" type="text/css">');
+		}
+	</script>
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.21/moment-timezone-with-data-2012-2022.min.js"></script>
+	<script type="text/javascript">
+		if (!window.moment) { 
+			document.write('<script type="text/javascript" src="js/moment-2.22.2.min.js"><\/script>');
+			document.write('<script type="text/javascript" src="js/moment-timezone-with-data-2012-2022-0.5.21.min.js"><\/script>');
+		}
+	</script>
+	<script type="text/javascript" src="../kierandg.github.io/js/proton-3.3.0.min.js"></script>
+	<!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/protonjs/3.3.0/proton.min.js"></script>
+	<script type="text/javascript">
+		console.log(window.Proton);
+		if (!window.Proton) { 
+			document.write('<script type="text/javascript" src="js/proton-3.3.0.min.js"><\/script>');
+		}
+	</script>	
+	-->
+    <style type="text/css">
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .h1 {
+            margin-top: calc(20vh);
+            font-size: calc(10vh);
+            font-family: 'Roboto Condensed', sans-serif !important;
+        }
+
+        .h3 {
+            font-size: 20px;
+            font-weight: lighter;
+            color: #222223;
+            display: none;
+        }
+
+        .hr {
+            width: 400px;
+            height: 1px;
+            background: #fff;
+            margin: 6px auto;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container .title {
+            pointer-events: none;
+            z-index: 10;
+            position: absolute;
+
+            /* centering div */
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Roboto Condensed', sans-serif !important;
+            text-align: center;
+            width: 100%;
+            color: #fff;
+        }
+
+        #logo {
+            position: fixed;
+            left: 50%;
+            /* bring your own prefixes */
+            transform: translate(-50%, 0);
+            z-index: 20;
+        }
+
+        #logo img {
+            height: calc(14vh);
+            min-height: 70px !important;
+            border: 0;
+        }
+
+        #canvas {
+            display: block;
+            position: relative;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            /* background: #FC8728; */
+            background-image: linear-gradient(#FFC221, #FD8108);
+        }
+
+        .subscriber {
+            z-index: 20;
+            position: absolute !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            top: calc(40vh);
+        }
+
+        .counter {
+            margin-top: 32px;
+            transform: scale(1.2);
+        }
+
+        .counter ul {
+            box-shadow: none !important;
+            border: solid 2px #ccc !important;
+            background-color: #fff !important;
+        }
+
+        .counter ul li a div div.inn {
+            background-color: #FFF;
+            color: #3A99D8 !important;
+
+            /* text shadow on white text with blur effect, h-shadow v-shadow blur color */
+            text-shadow: 0 1px 1px #FFF;
+
+            font-size: calc(10vh) !important;
+            text-anchor: middle !important;
+            font-family: 'Roboto Condensed', sans-serif !important;
+            font-weight: 700 !important;
+        }
+
+        .clock {
+            z-index: 20;
+            position: absolute !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            bottom: calc(10vh + 50px) !important;
+        }
+
+        .date {
+            z-index: 20;
+            position: absolute !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            bottom: calc(10vh) !important;
+            font-size: calc(5vh) !important;
+            font-family: 'Roboto Condensed', sans-serif !important;
+            color: #FFF;
+        }
+
+        .time-bg {
+            position: absolute !important;
+            top: 0;
+
+            /* centering */
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+        }
+
+        .time ul {
+            box-shadow: none !important;
+            background-color: transparent !important;
+        }
+
+        .time ul li a div div.inn {
+
+            /* no background, using time-bg with opacity */
+            background-color: transparent !important;
+            color: #FFF !important;
+
+            /* text shadow on white text with blur effect, h-shadow v-shadow blur color */
+            text-shadow: 0 1px 1px #fff;
+            text-align: center;
+            font-size: calc(9vh) !important;
+            text-anchor: middle !important;
+            font-family: 'Roboto Condensed', sans-serif !important;
+            font-weight: 700 !important;
+        }
+
+        .time .flip-clock-label {
+            color: white !important;
+            box-shadow: none !important;
+            text-shadow: none;
+        }
+
+        .time .flip-clock-dot {
+            background: #fff !important;
+            box-shadow: none !important;
+        }
+
+        .time ul li a div.up:after {
+            /* no line in center of number */
+            background-color: rgba(255, 255, 255, 0) !important;
+        }
+
+        .time .flip-clock-before a div div.inn {
+            visibility: hidden !important;
+        }
+
+        .time-bg .flip-clock-divider {
+            visibility: hidden !important;
+        }
+
+        .time-bg ul {
+            border: solid 2px white !important;
+
+            /* opacity */
+            background: rgba(255, 255, 255, 0.3);
+
+            /* no shadown */
+            box-shadow: none !important;
+        }
+
+        .time-bg ul li {
+            display: none;
+        }
+
+        .time ul.play li.flip-clock-active {
+            -webkit-animation: asd 0.5s 0.5s linear both;
+            -moz-animation: asd 0.5s 0.5s linear both;
+            animation: asd 0.5s 0.5s linear both;
+            z-index: 5;
+        }
+
+        /* SHADOW */
+        .time ul.play li.flip-clock-before .up .shadow {
+            background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 0.8)));
+            background: linear, top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%;
+            background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: linear, to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%;
+            -webkit-animation: show 0.5s linear both;
+            -moz-animation: show 0.5s linear both;
+            animation: show 0.5s linear both;
+        }
+
+        .time ul.play li.flip-clock-active .up .shadow {
+            background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 0.8)));
+            background: linear, top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%;
+            background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: linear, to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%;
+            -webkit-animation: hide 0.5s 0.3s linear both;
+            -moz-animation: hide 0.5s 0.3s linear both;
+            animation: hide 0.5s 0.3s linear both;
+        }
+
+        /*DOWN*/
+        .time ul.play li.flip-clock-before .down .shadow {
+            background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.8)), color-stop(100%, rgba(255, 255, 255, 0)));
+            background: linear, top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%;
+            background: -o-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: linear, to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%;
+            -webkit-animation: show 0.5s linear both;
+            -moz-animation: show 0.5s linear both;
+            animation: show 0.5s linear both;
+        }
+
+        .time ul.play li.flip-clock-active .down .shadow {
+            background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.8)), color-stop(100%, rgba(255, 255, 255, 0)));
+            background: linear, top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%;
+            background: -o-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: linear, to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%;
+            -webkit-animation: hide 0.5s 0.3s linear both;
+            -moz-animation: hide 0.5s 0.3s linear both;
+            animation: hide 0.5s 0.2s linear both;
+        }
+
+        /* SHADOW */
+        .counter ul.play li.flip-clock-before .up .shadow {
+            background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 0.8)));
+            background: linear, top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%;
+            background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: linear, to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%;
+            -webkit-animation: show 0.5s linear both;
+            -moz-animation: show 0.5s linear both;
+            animation: show 0.5s linear both;
+        }
+
+        .counter ul.play li.flip-clock-active .up .shadow {
+            background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(100%, rgba(255, 255, 255, 0.8)));
+            background: linear, top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%;
+            background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%);
+            background: linear, to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 100%;
+            -webkit-animation: hide 0.5s 0.3s linear both;
+            -moz-animation: hide 0.5s 0.3s linear both;
+            animation: hide 0.5s 0.3s linear both;
+        }
+
+        /*DOWN*/
+        .counter ul.play li.flip-clock-before .down .shadow {
+            background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.8)), color-stop(100%, rgba(255, 255, 255, 0)));
+            background: linear, top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%;
+            background: -o-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: linear, to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%;
+            -webkit-animation: show 0.5s linear both;
+            -moz-animation: show 0.5s linear both;
+            animation: show 0.5s linear both;
+        }
+
+        .counter ul.play li.flip-clock-active .down .shadow {
+            background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.8)), color-stop(100%, rgba(255, 255, 255, 0)));
+            background: linear, top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%;
+            background: -o-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: -ms-linear-gradient(top, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+            background: linear, to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%;
+            -webkit-animation: hide 0.5s 0.3s linear both;
+            -moz-animation: hide 0.5s 0.3s linear both;
+            animation: hide 0.5s 0.2s linear both;
+        }
+    </style>
+
+    <script>
+        let canvas;
+        let context;
+        let proton;
+        let renderer;
+        let emitter, pointZone;
+        let R, num;
+        let pointer;
+        let clock;
+        let counter;
+
+        $(document).ready(function () {
+            const mm = moment.utc().tz('Asia/Ho_Chi_Minh');
+            $('.date').text(mm.format('dddd, LL'));
+
+            // Instantiate a coutdown FlipClock
+            $('.time-bg').FlipClock({
+                clockFace: 'TwentyFourHourClock',
+                autoStart: false
+            });
+
+            // Instantiate a coutdown FlipClock
+            const startDate = new Date(mm.format('YYYY-MM-DD hh:mm:ss a'));
+            clock = $('.time').FlipClock(startDate, {
+                clockFace: 'TwentyFourHourClock',
+                autoStart: true,
+                callbacks: {
+                    interval: function () {
+                        // Reset play class of not flipping digit
+                        $('.time ul:not(:last-child)').removeClass('play');
+                    }
+                }
+            });
+
+            counter = $('.counter').FlipClock(999799, {
+                clockFace: 'Counter',
+                callbacks: {
+                    interval: function () {
+                        // Reset play class of not flipping digit
+                        $('.counter ul:not(:last-child)').removeClass('play');
+                    }
+                }
+            });
+
+            setTimeout(function () {
+                setInterval(function () {
+                    const rand = Math.floor(Math.random() * (1 + 100 - 0)) + 0;
+                    console.log(rand, counter.getTime().time);
+
+                    counter.setTime(0 + counter.getTime().time + parseInt(rand / 10));
+                }, 3000);
+            });
+
+            // Proton
+            num = Math.min(parseInt(window.innerWidth / (2000 / 145)), 400);
+            R = 140;
+            pointer = {x: 0, y: 0, r: 0};
+
+            initCanvas();
+            createProton(num);
+            //setTimeout(addMouseEvent, 200);
+            addRenderer();
+            tick();
+        });
+
+        function initCanvas() {
+            canvas = document.getElementById("canvas");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            context = canvas.getContext('2d');
+        }
+
+        function createProton(num) {
+            proton = new Proton;
+
+            emitter = new Proton.Emitter();
+            emitter.rate = new Proton.Rate(new Proton.Span(num), new Proton.Span(.05, .2));
+
+            emitter.addInitialize(new Proton.Mass(1));
+            emitter.addInitialize(new Proton.Radius(1, 4));
+            emitter.addInitialize(new Proton.Life(Infinity));
+
+            pointZone = new Proton.Position(new Proton.RectZone(0, 0, canvas.width, canvas.height));
+            emitter.addInitialize(pointZone);
+            emitter.addInitialize(new Proton.Velocity(new Proton.Span(.3, .6), new Proton.Span(0, 360), 'polar'));
+
+            emitter.addBehaviour(new Proton.Alpha(Proton.getSpan(0.2, .9)));
+            emitter.addBehaviour(new Proton.Color('#ffffff'));
+            emitter.addBehaviour(new Proton.CrossZone(new Proton.RectZone(0, 0, canvas.width, canvas.height), 'cross'));
+
+            emitter.emit('once');
+            emitter.damping = 0;
+            proton.addEmitter(emitter);
+        }
+
+        function addRenderer() {
+            renderer = new Proton.CanvasRenderer(canvas);
+            renderer.onProtonUpdateAfter = function () {
+                const particles = emitter.particles;
+
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const pA = particles[i];
+                        const pB = particles[j];
+                        const dis = pA.p.distanceTo(pB.p);
+
+                        if (dis < R) {
+                            const alpha = (1 - dis / R) * .5;
+                            context.strokeStyle = 'rgba(255,255,255,' + alpha + ')';
+                            context.beginPath();
+                            context.moveTo(pA.p.x, pA.p.y);
+                            context.lineTo(pB.p.x, pB.p.y);
+                            context.closePath();
+                            context.stroke();
+                        }
+                    }
+                }
+            }
+
+            proton.addRenderer(renderer);
+        }
+
+        function addMouseEvent() {
+            emitter.rate = new Proton.Rate(new Proton.Span(3), .5);
+            emitter.removeInitialize(pointZone);
+
+            canvas.addEventListener('mousedown', function (e) {
+                for (let i = 0; i < 3; i++)
+                    emitter.particles[i].dead = true;
+
+                setTimeout(function () {
+                    emitter.p.x = getPos(e).x;
+                    emitter.p.y = getPos(e).y;
+                    emitter.emit('once');
+                }, 60);
+            });
+
+            canvas.addEventListener('mouseup', function (e) {
+                emitter.stop();
+            });
+
+            canvas.addEventListener('mousemove', function (e) {
+                const p0 = emitter.particles[0];
+                p0.radius = 0;
+                const ease = .3;
+
+                p0.p.x += (getPos(e).x - p0.p.x) * ease;
+                p0.p.y += (getPos(e).y - p0.p.y) * ease;
+            });
+        }
+
+        const _pos = {x: 0, y: 0};
+
+        function getPos(e) {
+            if (e.layerX !== undefined) {
+                _pos.x = e.layerX;
+                _pos.y = e.layerY;
+            } else if (e.offsetX !== undefined) {
+                _pos.x = e.offsetX;
+                _pos.y = e.offsetY;
+            }
+
+            return _pos;
+        }
+
+        function tick() {
+            requestAnimationFrame(tick);
+
+            proton.update();
+            //proton.stats.update(3);
+        }
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <div class="title">
+        <div id="logo">
+            <img src='data:image/png;base64,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'/>
+        </div>
+        <div class="h1">SỐ THUÊ BAO</div>
+        <div class="hr"></div>
+        <div class="h3">Country roads, take me home...</div>
+    </div>
+    <div class="subscriber">
+        <div class="counter"></div>
+    </div>
+    <div class="clock">
+        <div class="time-bg"></div>
+        <div class="time"></div>
+    </div>
+    <div class="date"></div>
+    <canvas id="canvas"></canvas>
+</div>
+</body>
+
+</html>

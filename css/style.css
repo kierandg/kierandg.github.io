@@ -1,0 +1,168 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#main-frame, #diff-frame {
+    width: 700px;
+    height: 600px;
+    margin: 0 auto;
+    border: solid 1px #ddd;
+    background-color: white;
+    font-size: 10pt;
+}
+
+.approx {
+    font-size: 0.8em;
+    margin-left: 5px;
+    color: #414141;
+}
+
+#diff-frame {
+    margin-top: 20px;
+    padding: 20px 0;
+    height: auto !important;
+}
+
+#results-frame {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+#title-frame {
+    text-align: center;
+    border-bottom: solid 1px #ddd;
+    background-color: #f0f0f0;
+    font-size: 14pt;
+    padding: 3pt 0;
+}
+
+#cnh-main {
+    margin: 10px auto;
+    background-color: #fff;
+    color: #333;
+}
+
+#cnh-main tr { line-height: 18px; }
+
+#pdt-preview-panel {
+    background-color: #FFF;
+    width: 105px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    border: solid 1px #222222;
+}
+
+td.title {
+    width: 60px;
+    padding-left: 20px;
+}
+
+#diff-frame td.title {
+    width: 30px;
+}
+
+.result {
+    float: left;
+    margin-top: 20px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.result .box {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 100px;
+    width: 100px;
+}
+
+.result .hex, .result .dist {
+    width: 100px;
+}
+
+.result .shade {
+    margin-top: 5px;
+    height: 5px;
+    width: 100px;
+    cursor: pointer;
+}
+
+.result .dist {
+    font-size: 10px;
+    color: #222222;
+}
+
+.result .name, .result .hex, .result .rgb {
+    font-size: 11px;
+    color: #222222;
+}
+
+.note {
+    background: rgba(243, 192, 51, 0.2);
+    border-radius: 3px;
+    padding: 2px;
+}
+
+.result .name {
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.color-boxes {
+    display: block;
+    min-height: 100% !important;
+    height: auto !important;
+    overflow: hidden;
+    padding-top: 5px;
+}
+
+.color-boxes sup {
+    font-size: 0.75em;
+    margin-left: 3px;
+    color: #414141;
+}
+
+.color-palette {
+    margin-top: 15px;
+}
+
+.color-palette .title {
+    color: #007DBA;
+}
+
+div.title {
+    float: left;
+}
+
+#related-results .title {
+    margin-top: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+#cnh-main input[type="text"] {
+    width: 40px;
+}
+
+#pdt-clr-map {
+    width: 256px;
+    height: 256px;
+    border: solid 1px #000;
+}
+
+#pdt-clr-map {
+    width: 20px;
+    height: 256px;
+    border: solid 1px #000;
+}
+
+footer {
+    position: left;
+    clear: both;
+    background-color: #e9ecef;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}

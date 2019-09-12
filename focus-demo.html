@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .pin {
+            width: 30px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.pin').focus(function (evt) {
+				let curr = parseInt(evt.target.id.substr('pin-'.length));
+
+				// Check all PIN are empty
+				if ($('#pin-0').val() === '' && curr > 0) {
+					$(evt.target).blur();
+					evt.stopPropagation();
+				}
+
+				let found = false;
+				for (let i = 5; i >= 0; i--) {
+					let digit = $('#pin-' + i).val().trim();
+					//console.log(i + ' = ' + digit);
+					if (digit !== '') {
+						found = i + 1;
+						break;
+					}
+				}
+
+				if (found !== false && found !== curr) {
+					//console.log('found to focus ' + found);
+					$(evt.target).blur();
+					evt.stopPropagation();
+					$('#pin-' + found).trigger('focus', $.Event('focus'));
+				}
+            });
+
+            $('#pin-0').focus();
+        });
+    </script>
+</head>
+<body>
+    <p>
+        <br/><br/><br/>
+    </p>
+
+    <input id="pin-0" value="" class="pin" style="margin-left: 300px;" />
+    <input id="pin-1" value="" class="pin" />
+    <input id="pin-2" value="" class="pin" />
+    <input id="pin-3" value="" class="pin" />
+    <input id="pin-4" value="" class="pin" />
+    <input id="pin-5" value="" class="pin" />
+</body>
+</html>

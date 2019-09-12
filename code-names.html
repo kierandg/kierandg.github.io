@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"/>
+    <style>
+        .needs-js, .js .no-js {
+            display: none;
+        }
+
+        .js .needs-js {
+            display: block;
+        }
+
+        h1, h2, h3, h4 {
+            word-break: break-all;
+        }
+
+        .form-horizontal {
+            margin: 5px;
+        }
+
+        .small-break {
+             margin-top: 5px;
+             margin-bottom: 5px;
+         }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+    <meta name="description" content="Generate code names"/>
+    <meta name="author" content="kierandg"/>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Local fall-back copy -->
+    <script type="text/javascript">
+        if (!window.jQuery) {
+            document.write('<script type="text/javascript" src="js/jquery-3.3.1.min.js"><\/script>');
+        }
+    </script>
+
+    <!-- Bootstrap JS CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <!-- Bootstrap JS local fallback -->
+    <script>
+        if (typeof($.fn.modal) === 'undefined') {
+            document.write('<script src="js/bootstrap-4.1.3.min.js"><\/script>')
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <script type="text/javascript">
+        if (!window._) {
+            document.write('<script type="text/javascript" src="js/underscore-1.9.1.min.js"><\/script>');
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.string/3.3.5/underscore.string.min.js"></script>
+    <script type="text/javascript">
+        if (!window._) {
+            document.write('<script type="text/javascript" src="js//underscore.string-3.3.5.min.js"><\/script>');
+        }
+    </script>
+
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    <script type="text/javascript">
+        if (!window.requirejs) {
+            document.write('<script type="text/javascript" src="js/require-2.3.6.min.js"><\/script>');
+        }
+    </script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/reactive-coffee/0.0.5/reactive-coffee.min.js"></script>
+    <script src="../kierandg.github.io/js/names.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            const clr = $('body').css('color');
+            if (clr != 'rgb(51, 51, 51)') {
+                $("head").prepend('<link rel="stylesheet" href="css/bootstrap-4.1.3.min.css">');
+            }
+        });
+    </script>
+</head>
+<body>
+<header class="jumbotron">
+    <div class="container">
+        <h1 id="final-name">
+            <span class="no-js">
+                Code name generator
+                <small>Loading&hellip;</small>
+            </span>
+            <small class="needs-js">
+                Your code name:<br/>
+            </small>
+        </h1>
+    </div>
+</header>
+<section class="container" id="selects"></section>
+<footer class="container">
+    <p class="text-center">
+        An <a href="">tool</a> for PD team
+        by <a href="https://kierandg.blogspot.com">kierandg.</a>
+    </p>
+</footer>
+</body>
+</html>

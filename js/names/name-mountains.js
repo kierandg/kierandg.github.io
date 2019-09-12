@@ -1,0 +1,63 @@
+if (!window.NAMES) {
+    NAMES = {};
+}
+
+// Mountains: https://en.wikipedia.org/wiki/Lists_of_mountains
+NAMES['moutains'] = {
+
+    "name": "Moutains",
+    "source": "https://www.google.com.vn/search?q=mountain+names",
+    "values": [
+        "Everest",
+        "Kilimanjaro",
+        "Aconcagua",
+        "Mont Blanc",
+        "K2",
+        "Denali",
+        "Ben Nevis",
+        "Jengish Chokusu",
+        "Kangchenjunga",
+        "Elbrus",
+        "Rainier",
+        "Logan",
+        "Matterhorn",
+        "Tirich Mir",
+        "Saint Elias",
+        "Nanga Parbat",
+        "Mauna Kea",
+        "Makalu",
+        "Gongga",
+        "Kongur Tagh",
+        "Ararat",
+        "Cho Oyu",
+        "Fairweather",
+        "Lhotse",
+        "Olympus",
+        "Kosciuszko",
+        "Gasherbrum I",
+        "Aoraki",
+        "Nanda Devi",
+        "Manaslu",
+        "Chimborazo",
+        "Hood",
+        "Mauna Loa",
+        "Kamet",
+        "Katahdin",
+        "Kīlauea",
+        "Hualālai",
+        "Damavand",
+        "Vinson Massif",
+        "Olympic",
+        "Monadnock",
+        "Klyuchevskaya Sopka",
+        "Kinabalu",
+        "Anamudi",
+        "Kabru",
+        "Kangto",
+        "Shishapangma",
+        "Whitney",
+        "Shasta",
+        "Teton Range",
+        "Sugarloaf"
+    ]
+};

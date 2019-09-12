@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Title</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel='stylesheet' id='tp-roboto-300-css'
+          href='//fonts.googleapis.com/css?family=Roboto%3A300&#038;ver=4.1.6' type='text/css' media='all'/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.rawgit.com/hilios/jQuery.countdown/2.0.4/dist/jquery.countdown.min.js"></script>
+
+    <style>
+        .single-image img.alignleft {
+            float: left;
+            margin: 0;
+        }
+
+        .img-full-responsive {
+            display: block;
+            max-width: none;
+            width: 100%;
+            height: auto;
+        }
+
+        .img-full-responsive {
+            display: block;
+            max-width: none;
+            width: 100%;
+            height: auto;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        .countdown .col-md-4 {
+            color: #FFF;
+            vertical-align: middle;
+            padding-top: 100px !important;
+            text-align: center;
+            height: 290px;
+        }
+
+        .countdown .unit {
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            font-style: normal;
+            font-variant: normal;
+            position: relative;
+            top: -30px;
+        }
+
+        .countdown .hours, .countdown .minutes, .countdown .seconds {
+            font-family: 'Roboto', sans-serif;
+            font-size: 118px;
+            font-style: normal;
+            font-variant: normal;
+        }
+
+        /* Small Devices, Tablets */
+        @media only screen and (max-width: 768px) {
+            .countdown .col-md-4 {
+                padding-top: 0px !important;
+                height: 80px;
+            }
+
+            .countdown .unit {
+                top: -15px;
+                font-size: 12px;
+            }
+
+            .countdown .hours, .countdown .minutes, .countdown .seconds {
+                font-size: 60px;
+            }
+        }
+    </style>
+    <script>
+        var data = {
+            "HN": {
+                "HN-1": "48 Vạn Bảo – quận Ba Đình",
+                "HN-2": "481 Hoàng Quốc Việt – quận Cầu Giấy",
+                "HN-3": "59 Nguyễn Công Trứ – quận Hai Bà Trưng",
+                "HN-4": "402 Xã Đàn – quận Đống Đa",
+                "HN-5": "Liền kề 25 – khu ĐT Bắc Hà – quận Hà Đông",
+                "HN-6": "Phố Bình Xà – xã Bình Minh – huyện Thanh Oai",
+                "HN-7": "88 Cao Lỗ – huyện Đông Anh",
+                "HN-8": "339 Nguyễn Văn Cừ – quận Long Biên",
+                "HN-9": "409 Chùa Thông – Sơn Lộc – thị xã Sơn Tây",
+                "HN-10": "Khu 7 – Thị trấn Trạm Trôi – huyện Hoài Đức",
+                "HN-11": "Phố Bình Xà – xã Bình Minh (Đối diện NH Nông Nghiệp) – huyện Thanh Oai",
+                "HN-12": "59 Trần Phú – huyện Thường Tín"
+            },
+            "BG": {
+                "BG-1": "47 Ngô Gia Tự, Phường Ngô Quyền, thành phố Bắc Giang, tỉnh Bắc Giang",
+                "BG-2": "177 Trường Trinh, thị trấn Thắng, huyện Hiệp Hòa, tỉnh Bắc Giang"
+            },
+            "BN": {
+                "BN-1": "225 Minh Khai – thị xã Từ Sơn",
+                "BN-2": "74 Hai Bà Trưng – thành phố Bắc Ninh"
+            },
+            "CB": {
+                "CB-1": "Số 8 Kim Đồng, tổ 15 phường Hợp Giang, thành phố Cao Bằng"
+            },
+            "ĐB": {
+                "ĐB-1": "584 đường 7/5 – phường Tân Thanh – thành phố Điện Biên Phủ"
+            },
+            "HNa": {
+                "HNa-1": "132 Trần Hưng Đạo – phường Trần Hưng Đạo – thành phố Phủ Lý"
+            },
+            "HD": {
+                "HD-1": "22 Quang Trung – thành phố Hải Dương.",
+                "HD-2": "245 Thái Học 3 – phường Sao Đỏ – thị xã Chí Linh"
+            },
+            "HP": {
+                "HP-1": "186 Văn Cao – phường Đằng Giang – quận Ngô Quyền – thành phố Hải Phòng",
+                "HP-2": "77-79 Lê Lợi – Quận Ngô Quyền – thành phố Hải Phòng",
+                "HP-3": "19 Đà Nẵng – huyện Thủy Nguyên",
+                "HP-4": "99 Trần Thành Ngọ – Kiến An"
+            },
+            "HY": {
+                "HY-1": "Số 6 Đường 196 – thị trấn Phố Nối."
+            },
+            "LCa": {
+                "LCa-1": "228 Hoàng Liên – phường Cốc Lếu – thành phố Lào Cai"
+            },
+            "LS": {
+                "LS-1": "312 Bà Triệu – phường Vĩnh Trại – thành phố Lạng Sơn"
+            },
+            "NĐ": {
+                "NĐ-1": "312 Trần Hưng Đạo – thành phố Nam Định"
+            },
+            "PT": {
+                "PT-1": "1121 Đại lộ Hùng Vương – phường Tiên Cát – thành phố Việt Trì"
+            },
+            "QN": {
+                "QN-1": "85 Kênh Liêm – thành phố Hạ Long.",
+                "QN-2": "731 Trần Phú – phường Cẩm Thuỷ – thành phố Cẩm Phả.",
+                "QN-3": "258 Quang Trung – phường Quang Trung – Thành phố Uông Bí",
+                "QN-4": "46 Đông Trì – phường Trần Phú – thành phố Móng Cái"
+            },
+            "SL": {
+                "SL-1": "8 Nguyễn Lương Bằng – tổ 4 – phường Quyết Thắng – thành phố Sơn La"
+            },
+            "TB": {
+                "TB-1": "292 Trần Thái Tông – phường Tiền Phong – thành phố Thái Bình"
+            },
+            "TNg": {
+                "TNg-1": "156 Lương Ngọc Quyến – thành phố Thái Nguyên",
+                "TNg-2": "49 Thắng Lợi – phường Thắng Lợi – thị xã Sông Công"
+            },
+            "VP": {
+                "VP-1": "120 Mê Linh – phường Liên Bảo – thành phố Vĩnh Yên",
+                "VP-2": "121 An Dương Vương – thị xã Phúc Yên"
+            },
+            "YB": {
+                "YB-1": "22 Điện Biên – phường Minh Tân – thành phố Yên Bái"
+            },
+            "BĐ": {
+                "BĐ-1": "94 Phạm Hùng – phường Lý Thường Kiệt – thành phố Quy Nhơn"
+            },
+            "ĐNa": {
+                "ĐNa-1": "182 – 184 Đường 3/2 – quận Hải Châu – thành phố Đà Nẵng"
+            },
+            "ĐL": {
+                "ĐL-1": "96 Phan Chu Trinh – thành phố Buôn Ma Thuột"
+            },
+            "HT": {
+                "HT-1": "16 Nguyễn Công Trứ – thành phố Hà Tĩnh"
+            },
+            "TTH": {
+                "TTH-1": "09 Nguyễn Trãi - phường Thuận Hòa – thành phố Huế",
+                "TTH-2": "46 Phạm Hồng Thái – phường Vĩnh Ninh – thành phố Huế"
+            },
+            "GL": {
+                "GL-1": "67 Tăng Bạt Hổ – thành phố Pleiku"
+            },
+            "KT": {
+                "KT-1": "128 Phan Chu Trinh – phường Quyết Thắng – thành phố Kon Tum"
+            },
+            "KH": {
+                "KH-1": "176 Trần Quý Cáp – phường Phương Sài – thành phố Nha Trang"
+            },
+            "NA": {
+                "NA-1": "28 Lê Lợi – thành phố Vinh",
+                "NA-2": "Khối 250 đường Phùng Chí Kiên – phường Quang Tiến – thị xã Thái Hoà"
+            },
+            "PY": {
+                "PY-1": "A11 Khu ĐT Hưng Phú – đường Trần Phú – phường 5 – thành phố Tuy Hòa"
+            },
+            "QB": {
+                "QB-1": "22 Trần Hưng Đạo – thành phố Đồng Hới"
+            },
+            "QNa": {
+                "QNa-1": "540 Hai Bà Trưng – phường Tân An – thành phố Hội An",
+                "QNa-2": "299 Phan Bội Châu – thành phố Tam Kỳ"
+            },
+            "QNg": {
+                "QNg-1": "247 Phan Bội Châu – thành phố Quảng Ngãi"
+            },
+            "QT": {
+                "QT-1": "159 Quốc lộ 9 – phường 5 – thành phố Đông Hà"
+            },
+            "TH": {
+                "TH-1": "108 Cao Thắng – phường Lam Sơn – thành phố Thanh Hóa",
+                "TH-2": "85 Trần Phú – thị xã Bỉm Sơn"
+            },
+            "SG": {
+                "SG-1": "124 Sương Nguyệt Ánh – phường Bến Thành – quận 1",
+                "SG-2": "227 Hậu Giang – phường 5 – quận 6",
+                "SG-3": "340E – 340F Hoàng Văn Thụ – phường 6 – quận Tân Bình",
+                "SG-4": "314-316 Nguyễn Văn Lượng – phường 16 – quận Gò Vấp",
+                "SG-5": "22A Quang Trung – phường 10 – quận Gò Vấp",
+                "SG-6": "155 Đinh Bộ Lĩnh – phường 6 (số cũ là 97 Đinh Bộ Lĩnh) – quận Bình Thạnh",
+                "SG-7": "66 Hoàng Diệu 2 – phường Linh Chiểu – quận Thủ Đức",
+                "SG-8": "186 - 188 Nguyễn Duy Dương - phường 3 - quận 10",
+                "SG-9": "1240C Huỳnh Tấn Phát – phường Tân Phú – quận 7",
+                "SG-10": "123 Lê Văn Quới – phường Bình Trị Đông – quận Bình Tân",
+                "SG-11": "282 Tô Ký – phường Tân Chánh Hiệp – quận 12",
+                "SG-12": "645, quốc lộ 22, khu phố 5, thị trấn Củ Chi, huyện Củ Chi",
+                "SG-13": "291 Lý Thái Tổ – phường 9 – quận 10"
+            },
+            "AG": {
+                "AG-1": "187 Trần Hưng Đạo – phường Mỹ Bình – thành phố Long Xuyên",
+                "AG-2": "513 Thủ Khoa Huân – phường Châu Phú B – thị xã Châu Đốc"
+            },
+            "BL": {
+                "BL-1": "B15 Trung Tâm Thương Mại – phường 3 – thành phố Bạc Liêu"
+            },
+            "BT": {
+                "BT-1": "11 Hai Bà Trưng – phường 1 – thành phố Bến Tre",
+                "BT-2": "71A khu phố 7 – Quốc Lộ 60 – thị trấn Mỏ Cày Nam – huyện Mỏ Cày Nam"
+            },
+            "BD": {
+                "BD-1": "217B Yersin – phường Phú Cuờng – thành phố Thủ Dầu Một",
+                "BD-2": "11/7A Bình Đức – Bình Hoà – thị xã Thuận An (gần ngã tư 550)",
+                "BD-2": "Số 9 – Khu phố 4 – quốc lộ 13B – thị Trấn Mỹ Phước – huyện Bến Cát"
+            },
+            "BTh": {
+                "BTh-1": "07 Tuyên Quang – thành phố Phan Thiết",
+                "BTh-2": "185 Thống Nhất – phường Tân Thiện – thị xã La Gi"
+            },
+            "CM": {
+                "CM-1": "55 Trần Hưng Đạo – khóm 4 – phường 5 – thành phố Cà Mau"
+            },
+            "CT": {
+                "CT-1": "190E Đường 30/4 – phường Hưng Lợi – quận Ninh Kiều – thành phố Cần Thơ"
+            },
+            "ĐN": {
+                "ĐN-1": "196 Hà Huy Giáp (QL.1 cũ) – phường Quyết Thắng – thành phố Biên Hòa (Đối diện khách sạn Vĩnh An)",
+                "ĐN-2": "47 CMT8 – phường Xuân An – thị xã Long Khánh"
+            },
+            "ĐT": {
+                "ĐT-1": "4 Lý Thường Kiệt – phường 1 – thành phố Cao Lãnh",
+                "ĐT-2": "201 Nguyễn Sinh Sắc – Lầu 1 – phường 2 – thị xã Sa Đéc"
+            },
+            "KG": {
+                "KG-1": "259 Nguyễn Bỉnh Khiêm – phường Vĩnh Thanh – thành phố Rạch Giá"
+            },
+            "LĐ": {
+                "LĐ-1": "38C Trần Phú – phường 4 – thành phố Đà Lạt",
+                "LĐ-2": "68 Trần Hưng Đạo – Đức Trọng",
+                "LĐ-3": "821 Trần Phú – phường B’Lao – thành phố Bảo Lộc"
+            },
+            "LA": {
+                "LA-1": "142 Hùng Vương – phường 2 – thành phố Tân An"
+            },
+            "NT": {
+                "NT-1": "256 Ngô Gia Tự – Phan Rang – Tháp Chàm"
+            },
+            "ST": {
+                "ST-1": "33 Trần Hưng Đạo – phường 3 – thành phố Sóc Trăng"
+            },
+            "TN": {
+                "TN-1": "565 – 567 Cách Mạng Tháng Tám – phường 3 – thị xã Tây Ninh",
+                "TN-2": "89 Quốc Lộ 22 – thị trấn Trảng Bàng"
+            },
+            "TG": {
+                "TG-1": "79 Lý Thường Kiệt – phường 5 – thành phố Mỹ Tho",
+                "TG-2": "690 Khu 3 – thị trấn Cai Lậy"
+            },
+            "VL": {
+                "VL-1": "68/11A Phạm Thái Bường – phường 4 – thành phố Vĩnh Long"
+            },
+            "BV": {
+                "BV-1": "408B Lê Hồng Phong – phường Thắng Tam – thành phố Vũng Tàu"
+            }
+        };
+
+        console.log({"": "Địa chỉ văn phòng đại diện - Quầy giao dịch"});
+
+        $(document).ready(function () {
+            var f = $('#countdown-full'), dt = f.data('countdown');
+            f.countdown(dt, function (event) {
+                var row = $(this).closest('div.countdown');
+
+                var h = row.find('.hours');
+                var m = row.find('.minutes');
+                var s = row.find('.seconds');
+
+                var hours = parseInt(event.strftime('%D')) * 24 + parseInt(event.strftime('%H'));
+
+                h.html(hours);
+                m.html(event.strftime('%M'));
+                s.html(event.strftime('%S'));
+            });
+
+        });
+
+        $(window).resize(function () {
+            var div = $('.single-image');
+            var img = div.find('.img-full-responsive');
+            var countdown = div.find('.countdown');
+            var h1 = img.height();
+            var h2 = countdown.height();
+            div.find('.single-image-padding').height((h2 - 30) > h1 ? (h2 - 30) : 0);
+        });
+    </script>
+</head>
+<body>
+<div class="single-image">
+    <img class="img-full-responsive alignleft default-image no-shadow" style="position: relative; z-index: 2;"
+         alt="background" src="http://truyenhinh.fpt.vn/wp-content/uploads/2015/04/bg.png"/>
+    <div class="row countdown"
+         style="position: absolute; z-index: 3; width: 100% !important; margin: 0px; !important; ">
+        <div style="width: 48% !important; margin: 0 auto;">
+            <img class="default-image no-shadow" style="width: 100% !important;" alt="2015-08-08T08:08:08+0700"
+                 src="http://truyenhinh.fpt.vn/wp-content/uploads/2015/04/chu-.png"/>
+        </div>
+        <div class="row"
+             style="width: 100% !important; margin-left: 0px !important; margin-right: 0px; !important; margin-top: 15px;">
+            <div class="col-md-offset-2 col-md-8" style="padding-left: 0px !important; padding-right: 0px; !important">
+                <div class="col-md-4" style="background-color: #00ACC1;"><span class="hours"></span>&nbsp;<span
+                        class="unit">Giờ</span></div>
+                <div class="col-md-4" style="background-color: #FE6F41;"><span class="minutes"></span>&nbsp;<span
+                        class="unit">Phút</span></div>
+                <div class="col-md-4" style="background-color: #9CCC66;"><span class="seconds"></span>&nbsp;<span
+                        class="unit">Giây</span></div>
+            </div>
+            <div id="countdown-full" data-countdown="2015/08/08 08:08:00" style="display: none"></div>
+        </div>
+    </div>
+    <div class="single-image-padding row" style="position: relative; z-index: 2; height: 0px;"></div>
+</div>
+</body>
+</html>
