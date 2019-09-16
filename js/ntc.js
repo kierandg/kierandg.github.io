@@ -15,9 +15,7 @@
  */
 
 const ntc = {
-
     init: function () {
-
         ['basic', 'pantone'].forEach(function (cat) {
             const colors = COLORS[cat];
             for (let i = 0; i < colors.length; i++) {
@@ -40,9 +38,7 @@ const ntc = {
         ['inspirations', 'teams', 'brands'].forEach(function (cat) {
             const palettes = COLORS[cat];
             for (let i = 0; i < palettes.length; i++) {
-
                 for (let j = 0; j < palettes[i].colors.length; j++) {
-
                     palettes[i].colors[j].hex = palettes[i].colors[j].hex.toUpperCase();
 
                     const rgb = ntc.hex2rgb(palettes[i].colors[j].hex);
@@ -86,7 +82,6 @@ const ntc = {
     },
 
     similar: function (color, names = [], range = 0) {
-
         range = Number(range);
         color = color.toUpperCase();
         if (color.length < 3 || color.length > 7) {
@@ -336,7 +331,6 @@ const ntc = {
         return [-1, -1, -1];
     },
     hex2hsl: function (color) {
-
         const rgb = ntc.hex2rgb(color);
         const r = rgb[0] / 255;
         const g = rgb[1] / 255;
@@ -386,7 +380,6 @@ const ntc = {
     },
     // https://www.w3schools.com/lib/w3color.js
     rgb2cmyk(rgb) {
-
         let c, m, y, k;
         const r = rgb[0] / 255;
         const g = rgb[1] / 255;
@@ -407,7 +400,6 @@ const ntc = {
         return [c, m, y, k];
     },
     rgb2hsl: function (rgb) {
-
         const r = rgb[0] / 255;
         const g = rgb[1] / 255;
         const b = rgb[2] / 255;
@@ -448,7 +440,6 @@ const ntc = {
         return [h * 360, s * 100, l * 100];
     },
     rgb2hsv: function (rgb) {
-
         const r = rgb[0] / 255;
         const g = rgb[1] / 255;
         const b = rgb[2] / 255;
@@ -495,7 +486,6 @@ const ntc = {
         return [h, s, v];
     },
     hsv2rgb: function (hsv) {
-
         let h = hsv[0];
         let s = hsv[1];
         let v = hsv[2];
@@ -806,7 +796,6 @@ const ntc = {
     },
 
     shade: function (clr) {
-
         let name = 'Undefined';
         let hex = '#000000';
 

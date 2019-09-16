@@ -16,7 +16,6 @@ Refresh.Web.ColorValuePicker.prototype = {
     initialize: function (id) {
 
         this.id = id;
-
         this.onValuesChanged = null;
 
         this._hueInput = $(this.id + '-hue');
@@ -217,7 +216,7 @@ Refresh.Web.ColorValuePicker.prototype = {
             return e;
         }
 
-        let hex = new String(e.target.value).toUpperCase();
+        let hex = String(e.target.value).toUpperCase();
 
         if (hex.startsWith('#')) {
             hex = hex.substring(1, 7);
@@ -234,17 +233,15 @@ Refresh.Web.ColorValuePicker.prototype = {
         return hex;
     },
     _keyNeedsValidation: function (e) {
-        if (e.keyCode === 9 ||      // TAB
+        return !(e.keyCode === 9 || // TAB
             e.keyCode === 16 ||     // Shift
             e.keyCode === 38 ||     // Up arrow
             e.keyCode === 29 ||     // Right arrow
             e.keyCode === 40 ||     // Down arrow
             e.keyCode === 37 ||     // Left arrow
-            (e.ctrlKey && (e.keyCode === 'c'.charCodeAt() || e.keyCode === 'v'.charCodeAt()))) {
-            return false;
-        }
+            (e.ctrlKey && (e.keyCode === 'c'.charCodeAt() || e.keyCode === 'v'.charCodeAt())));
 
-        return true;
+
     },
     _setValueInRange: function (value, min, max) {
         if (value === '' || isNaN(value)) {

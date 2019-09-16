@@ -64,7 +64,7 @@ td.title {
 
 .result {
     float: left;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-right: 10px;
     text-align: center;
 }
@@ -122,6 +122,10 @@ td.title {
     font-size: 0.75em;
     margin-left: 3px;
     color: #414141;
+}
+
+.color-boxes .color-title {
+    padding-top: 40px;
 }
 
 .color-palette {

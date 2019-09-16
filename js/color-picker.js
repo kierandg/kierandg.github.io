@@ -8,7 +8,7 @@ if (!Refresh.Web) Refresh.Web = {};
 
 Refresh.Web.DefaultColorPickerSettings = {
     startMode: 'h',
-    startHex: 'ff0000',
+    startHex: 'FF0000',
     clientFilesPath: 'images/'
 };
 
@@ -296,7 +296,6 @@ Refresh.Web.ColorPicker.prototype = {
         this.updateVisuals();
     },
     setColorMode: function (colorMode) {
-
         this.color = this._cvp.color;
 
         // reset all images
@@ -468,7 +467,6 @@ Refresh.Web.ColorPicker.prototype = {
     },
     mapValueChanged: function () {
         // update values
-
         switch (this.colorMode) {
             case 'h':
                 this._cvp._saturationInput.value = this._map.xValue;
@@ -518,7 +516,6 @@ Refresh.Web.ColorPicker.prototype = {
         this.updateVisuals();
     },
     sliderValueChanged: function () {
-
         switch (this.colorMode) {
             case 'h':
                 this._cvp._hueInput.value = 360 - this._slider.yValue;
@@ -634,7 +631,6 @@ Refresh.Web.ColorPicker.prototype = {
         this._map.setArrowPositionFromValues();
     },
     updateVisuals: function () {
-
         this.updatePreview();
         this.updateMapVisuals();
         this.updateSliderVisuals();
@@ -769,7 +765,7 @@ Refresh.Web.ColorPicker.prototype = {
                 const name = item.name + (item.distance > 0 ? '<sup>approx.</sup>' : '');
                 box.innerHTML = '<table><tr><td>' +
                     '<div class="hex">' + item.hex + '<sup><a style="text-decoration: none" href="https://encycolorpedia.com/' +
-                    item.hex.slice(1) + '">more</a></sup></div>' +
+                    item.hex.slice(1) + '" target="_blank">more</a></sup></div>' +
                     '<div class="rgb">(' + item.rgb.join(', ') + ')</div>' +
                     '<div title="' + item.name + '"class="box" style="background-color: ' +
                     item.hex + ';">&nbsp;</div>' +
@@ -806,7 +802,7 @@ Refresh.Web.ColorPicker.prototype = {
                 const name = item.name + (item.distance > 0 ? '<sup>approx.</sup>' : '');
                 box.innerHTML = '<table><tr><td>' +
                     '<div class="hex">' + item.hex + '<sup><a style="text-decoration: none" href="https://encycolorpedia.com/' +
-                    item.hex.slice(1) + '">more</a></sup></div>' +
+                    item.hex.slice(1) + '" target="_blank">more</a></sup></div>' +
                     '<div class="rgb">(' + item.rgb.join(', ') + ')</div>' +
                     '<div title="' + palette + item.name + '"class="box" style="background-color: ' +
                     item.hex + ';">&nbsp;</div>' +
@@ -856,13 +852,13 @@ Refresh.Web.ColorPicker.prototype = {
         for (let key in palettes) {
             const palette = palettes[key];
 
-            const paletteDiv = new Element('div', {'class': 'color-palette'});
-            const titleDiv = new Element('div', {'class': 'title'});
+            const paletteDiv = new Element('div', {"class": 'color-palette'});
+            const titleDiv = new Element('div', {"class": 'title'});
             titleDiv.innerHTML = palette.name;
             paletteDiv.insert(titleDiv);
 
             for (let i = 0; i < MAX_COUNT; i++) {
-                const box = new Element('div', {'class': 'result'});
+                const box = new Element('div', {"class": 'result'});
 
                 if (i < palette.colors.length) {
                     const item = palette.colors[i];
@@ -879,7 +875,7 @@ Refresh.Web.ColorPicker.prototype = {
                     const name = item.name;
                     box.innerHTML = '<table><tr><td>' +
                         '<div class="hex">' + item.hex + '<sup><a style="text-decoration: none" href="https://encycolorpedia.com/' +
-                        item.hex.slice(1) + '">more</a></sup></div>' +
+                        item.hex.slice(1) + '" target="_blank">more</a></sup></div>' +
                         '<div class="rgb">(' + item.rgb.join(', ') + ')</div>' +
                         '<div title="' + item.name + '"class="box" style="background-color: ' + item.hex + ';">&nbsp;</div>' +
                         '<div class="name">' + name + '</div>' +
@@ -897,9 +893,7 @@ Refresh.Web.ColorPicker.prototype = {
     }, 500),
     // END updatePreview
     updateMapVisuals: function () {
-
         this.color = this._cvp.color;
-
         switch (this.colorMode) {
             case 'h':
                 // fake color with only hue
@@ -929,9 +923,7 @@ Refresh.Web.ColorPicker.prototype = {
         }
     },
     updateSliderVisuals: function () {
-
         this.color = this._cvp.color;
-
         switch (this.colorMode) {
             case 'h':
                 break;
