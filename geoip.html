@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Directions service (complex)</title>
+    <style>
+		html, body, #map-canvas {
+			height: 100%;
+			margin: 0px;
+			padding: 0px
+		}
+
+		#panel {
+			position: absolute;
+			top: 5px;
+			left: 20%;
+			margin-left: -180px;
+			z-index: 5;
+			background-color: #fff;
+			padding: 5px;
+			border: 1px solid #999;
+		}
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+	<script src="http://j.maxmind.com/app/geoip.js" type="text/javascript" ></script>
+	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+	<script>
+		var ip;
+		var map;
+		var directionsDisplay;
+		var directionsService;
+		var stepDisplay;
+		var markers = [];
+		
+		// Create our "tiny" marker icon
+		var yellowIcon = new google.maps.MarkerImage(
+			"http://labs.google.com/ridefinder/images/mm_20_yellow.png",
+			new google.maps.Size(12, 20),
+			new google.maps.Point(0, 0),
+			new google.maps.Point(6, 20)
+		);
+
+		var redIcon = new google.maps.MarkerImage(
+			"http://labs.google.com/ridefinder/images/mm_20_red.png",
+			new google.maps.Size(12, 20),
+			new google.maps.Point(0, 0),
+			new google.maps.Point(6, 20)
+		);
+
+		var smallShadow = new google.maps.MarkerImage(
+			"http://labs.google.com/ridefinder/images/mm_20_shadow.png",
+			new google.maps.Size(22, 20),
+			new google.maps.Point(0, 0),
+			new google.maps.Point(6, 20)
+		);
+		
+		// Create a map and center it on Saigon Central Post Office.
+		var center = new google.maps.LatLng(10.782447, 106.698446);
+
+		function initialize() {
+			// Instantiate a directions service.
+			directionsService = new google.maps.DirectionsService();
+			
+			var opts = {
+				zoom: 15, 	// Why 15? Because it looks good.
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				center: center
+			}
+
+			map = new google.maps.Map(document.getElementById('map-canvas'), opts);
+
+			// Create a renderer for directions and bind it to the map.
+			var rendererOptions = {
+				map: map
+			}
+
+			directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions)
+			
+			// Instantiate an info window to hold step text.
+			stepDisplay = new google.maps.InfoWindow();
+			
+			var marker = new google.maps.Marker({
+				position: center,
+				icon: yellowIcon, 
+				shadow: smallShadow, 
+				map: map
+			});
+		}
+
+		function calcRoute(pt) {
+			//getAddress(pt);
+			
+			// First, remove any existing markers from the map.
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			}
+
+			// Now, clear the array itself.
+			markers = [];
+
+			// Retrieve the start and end locations and create
+			// a DirectionsRequest using WALKING directions.
+			var selectedMode = document.getElementById('mode').value;
+
+			var request = {
+				origin: pt,
+				destination: center,
+				// Note that Javascript allows us to access the constant
+				// using square brackets and a string value as its
+				// "property."
+				travelMode: google.maps.TravelMode[selectedMode]
+			};
+
+			// Route the directions and pass the response to a
+			// function to create markers for each step.
+			directionsService.route(request, function(response, status) {
+				if (status == google.maps.DirectionsStatus.OK) {
+					var warnings = document.getElementById('warnings-panel');
+					warnings.innerHTML = '<b>' + response.routes[0].warnings + '</b>';
+					directionsDisplay.setDirections(response);
+					showSteps(response);
+					
+					console.log(JSON.stringify(response));
+				} else {
+					document.getElementById('msg').innerHTML += "<br /><b>ZERO_RESULTS</b>";
+					return;
+				}
+			});
+		}
+
+		function showSteps(directionResult) {			
+			var route = directionResult.routes[0].legs[0];
+			document.getElementById('msg').innerHTML += "<br /><b>" + route.distance.text + " in " +
+				route.duration.text + " " + document.getElementById('mode').value + " </b> from " + route.start_address;
+
+			for (var i = 0; i < route.steps.length; i++) {
+				var marker = new google.maps.Marker({
+					position: route.steps[i].start_point,
+					map: map
+				});
+
+				attachInstructionText(marker, route.steps[i].instructions);
+				markers[i] = marker;
+			}
+		}
+
+		function attachInstructionText(marker, text) {
+			google.maps.event.addListener(marker, 'click', function() {
+				// Open an info window when the marker is clicked on,
+				// containing the text of the step.
+				stepDisplay.setContent(text);
+				stepDisplay.open(map, marker);
+			});
+		}
+		
+		function findRoute() {
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(pos) {
+					document.getElementById('msg').innerHTML = "Lat: " + pos.coords.latitude + 
+						" - Lng: " + pos.coords.longitude; 
+
+					calcRoute(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+				}, function(err) {
+					if(err.code == 1) {
+						alert("User denied geolocation.");
+					} else if(err.code == 2) {
+						alert("Position unavailable.");
+					} else if(err.code == 3) {
+						alert("Timeout expired.");
+					} else {
+						alert("ERROR: " + err.message);
+					}
+				});
+			} else {				
+				document.getElementById('msg').innerHTML = "Geolocation is not supported by this browser.";
+			}
+		}
+		
+		function findBySmartIp() {
+			$.getJSON('http://smart-ip.net/geoip-json?callback=?', function (data) {
+				document.getElementById('msg').innerHTML = "IP: " + data.host + 				
+						" - City: " + data.city +
+						"<br />Lat: " + data.latitude +
+						" - Lng: " + data.longitude; 
+				var pt = new google.maps.LatLng(data.latitude, data.longitude);
+				calcRoute(pt);
+			});
+		}
+		
+		function findByMaxMind() {
+			var city = geoip_city();
+			var latitude = geoip_latitude();
+			var longitude = geoip_longitude();
+		
+			document.getElementById('msg').innerHTML = "City: " + city +
+					"<br />Lat: " + latitude +
+					" - Lng: " + longitude; 
+			var pt = new google.maps.LatLng(latitude, longitude);
+			calcRoute(pt);
+		}
+		
+		function toggleDisplay() {
+			$("#request").toggle();
+			return false;
+		}
+		
+		function getAddress(pt) {
+			$.getJSON('http://maps.google.com/maps/api/geocode/json?latlng=' + pt.lat() + ',' + 
+					pt.lng() + '&sensor=false', function (data) {
+				if(!data.results || data.results.length == 0) {
+					return;
+				}
+
+				if(!data.results[0].address_components) {
+					return;
+				}
+				
+				var line = '';
+				if(data.results[0].formatted_address) {
+					line = data.results[0].formatted_address;
+				} else {				
+					if(data.results[0].address_components[2].types[0] == "sublocality") {
+						line += ", " + data.results[0].address_components[2].long_name;
+					}
+					
+					if(data.results[0].address_components[3].types[0] == "administrative_area_level_2") {
+						line += data.results[0].address_components[3].long_name;
+					}
+				}
+				
+				document.getElementById('msg').innerHTML += "<br />" + line;
+			});
+		}
+
+		google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+	</head>
+	<body>
+		<div id="panel">
+			Di den buu dien trung tam, diem mau vang <a href="#" onclick="toggleDisplay();">Toggle</a><br /><br />
+			<div id="request">
+				<b>Mode of Travel: </b>
+				<select id="mode">
+					<option value="DRIVING">Driving</option>
+					<option value="WALKING">Walking</option>
+					<option value="BICYCLING">Bicycling</option>
+					<option value="TRANSIT">Transit</option>
+				</select><br /><br />
+	
+				Chrome ko support localhost<br />
+				By HTML5 <input type="button" value="Go now!!!" onclick="findRoute()" /><br /><br />
+				
+				Theo IP cua ISP -> bi sai kha lon<br />
+				By Smart-IP <input type="button" value="Go Smart-IP" onclick="findBySmartIp()" /><br />
+				By MaxMind <input type="button" value="Go MaxMind" onclick="findByMaxMind()" /><br /><br />
+				<div id="msg"></div>
+			</div>
+		</div>
+		<div id="map-canvas"></div>
+		&nbsp;
+		<div id="warnings-panel" style="width:100%;height:10%;text-align:center"></div>
+	</body>
+</html>
