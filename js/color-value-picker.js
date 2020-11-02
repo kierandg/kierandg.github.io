@@ -3,16 +3,288 @@
  MIT style license
  */
 
-if (!window.Refresh) {
-    Refresh = {};
+if (!window.kd) {
+    kd = {};
 }
 
-if (!Refresh.Web) {
-    Refresh.Web = {};
-}
+kd.Color = function (input) {
+    const color = {
+        r: 0,
+        g: 0,
+        b: 0,
 
-Refresh.Web.ColorValuePicker = Class.create();
-Refresh.Web.ColorValuePicker.prototype = {
+        h: 0,
+        s: 0,
+        v: 0,
+
+        hex: '',
+
+        setRgb: function (r, g, b) {
+            this.r = r;
+            this.g = g;
+            this.b = b;
+
+            const hsv = kd.Color.rgbToHsv(this);
+            this.h = hsv.h;
+            this.s = hsv.s;
+            this.v = hsv.v;
+
+            this.hex = kd.Color.rgbToHex(this);
+        },
+
+        setHsv: function (h, s, v) {
+            this.h = h;
+            this.s = s;
+            this.v = v;
+
+            const rgb = kd.Color.hsvToRgb(this);
+            this.r = rgb.r;
+            this.g = rgb.g;
+            this.b = rgb.b;
+
+            this.hex = kd.Color.rgbToHex(rgb);
+        },
+
+        setHex: function (hex) {
+            this.hex = hex;
+
+            const rgb = kd.Color.hexToRgb(this.hex);
+            this.r = rgb.r;
+            this.g = rgb.g;
+            this.b = rgb.b;
+
+            const hsv = kd.Color.rgbToHsv(rgb);
+            this.h = hsv.h;
+            this.s = hsv.s;
+            this.v = hsv.v;
+        }
+    };
+
+    if (input) {
+        if (input.hex)
+            color.setHex(input.hex);
+        else if (input.r)
+            color.setRgb(input.r, input.g, input.b);
+        else if (input.h)
+            color.setHsv(input.h, input.s, input.v);
+    }
+
+    return color;
+};
+
+kd.Color.hexToRgb = function (hex) {
+    hex = kd.Color.validateHex(hex);
+
+    let r = '00', g = '00', b = '00';
+
+    /*
+     if (hex.length == 3) {
+     r = hex.substring(0,1);
+     g = hex.substring(1,2);
+     b = hex.substring(2,3);
+     } else if (hex.length == 6) {
+     r = hex.substring(0,2);
+     g = hex.substring(2,4);
+     b = hex.substring(4,6);
+     */
+    if (hex.length === 6) {
+        r = hex.substring(0, 2);
+        g = hex.substring(2, 4);
+        b = hex.substring(4, 6);
+    } else {
+        if (hex.length > 4) {
+            r = hex.substring(0, hex.length - 4);
+            hex = hex.substring(hex.length - 4);
+        }
+
+        if (hex.length > 2) {
+            g = hex.substring(0, hex.length - 2);
+            hex = hex.substring(hex.length - 2);
+        }
+
+        if (hex.length > 0) {
+            b = hex.substring(0, hex.length);
+        }
+    }
+
+    return {r: this.hexToInt(r), g: this.hexToInt(g), b: this.hexToInt(b)};
+};
+
+kd.Color.validateHex = function (hex) {
+    hex = String(hex).toUpperCase();
+    hex = hex.replace(/[^A-F0-9]/g, '0');
+    if (hex.length > 6) {
+        hex = hex.substring(0, 6);
+    }
+
+    return hex;
+};
+
+kd.Color.webSafeDec = function (dec) {
+    dec = Math.round(dec / 51);
+    dec *= 51;
+    return dec;
+};
+
+kd.Color.hexToWebSafe = function (hex) {
+    let r, g, b;
+
+    if (hex.length === 3) {
+        r = hex.substring(0, 1);
+        g = hex.substring(1, 1);
+        b = hex.substring(2, 1);
+    } else {
+        r = hex.substring(0, 2);
+        g = hex.substring(2, 4);
+        b = hex.substring(4, 6);
+    }
+    return intToHex(kd.Color.webSafeDec(kd.Color.hexToInt(r))) +
+        kd.Color.intToHex(kd.Color.webSafeDec(kd.Color.hexToInt(g))) +
+        kd.Color.intToHex(kd.Color.webSafeDec(kd.Color.hexToInt(b)));
+};
+
+kd.Color.rgbToWebSafe = function (rgb) {
+    return {r: kd.Color.webSafeDec(rgb.r), g: kd.Color.webSafeDec(rgb.g), b: kd.Color.webSafeDec(rgb.b)};
+};
+
+kd.Color.rgbToHex = function (rgb) {
+    return kd.Color.intToHex(rgb.r) + kd.Color.intToHex(rgb.g) + kd.Color.intToHex(rgb.b);
+};
+
+kd.Color.intToHex = function (dec) {
+    let result = (parseInt(dec).toString(16));
+    if (result.length === 1) {
+        result = ("0" + result);
+    }
+
+    return result.toUpperCase();
+};
+
+kd.Color.hexToInt = function (hex) {
+    return (parseInt(hex, 16));
+};
+
+kd.Color.rgbToHsv = function (rgb) {
+
+    const r = rgb.r / 255;
+    const g = rgb.g / 255;
+    const b = rgb.b / 255;
+
+    let hsv = {h: 0, s: 0, v: 0};
+
+    let min = 0;
+    let max = 0;
+
+    if (r >= g && r >= b) {
+        max = r;
+        min = (g > b) ? b : g;
+    } else if (g >= b && g >= r) {
+        max = g;
+        min = (r > b) ? b : r;
+    } else {
+        max = b;
+        min = (g > r) ? r : g;
+    }
+
+    hsv.v = max;
+    hsv.s = (max) ? ((max - min) / max) : 0;
+
+    if (!hsv.s) {
+        hsv.h = 0;
+    } else {
+        const delta = max - min;
+        if (r === max) {
+            hsv.h = (g - b) / delta;
+        } else if (g === max) {
+            hsv.h = 2 + (b - r) / delta;
+        } else {
+            hsv.h = 4 + (r - g) / delta;
+        }
+
+        hsv.h = parseInt(hsv.h * 60);
+        if (hsv.h < 0) {
+            hsv.h += 360;
+        }
+    }
+
+    hsv.s = parseInt(hsv.s * 100);
+    hsv.v = parseInt(hsv.v * 100);
+
+    return hsv;
+};
+
+kd.Color.hsvToRgb = function (hsv) {
+
+    let rgb = {r: 0, g: 0, b: 0};
+
+    let h = hsv.h;
+    let s = hsv.s;
+    let v = hsv.v;
+
+    if (s === 0) {
+        if (v === 0) {
+            rgb.r = rgb.g = rgb.b = 0;
+        } else {
+            rgb.r = rgb.g = rgb.b = parseInt(v * 255 / 100);
+        }
+    } else {
+        if (h === 360) {
+            h = 0;
+        }
+        h /= 60;
+
+        // 100 scale
+        s = s / 100;
+        v = v / 100;
+
+        const i = parseInt(h);
+        const f = h - i;
+        const p = v * (1 - s);
+        const q = v * (1 - (s * f));
+        const t = v * (1 - (s * (1 - f)));
+        switch (i) {
+            case 0:
+                rgb.r = v;
+                rgb.g = t;
+                rgb.b = p;
+                break;
+            case 1:
+                rgb.r = q;
+                rgb.g = v;
+                rgb.b = p;
+                break;
+            case 2:
+                rgb.r = p;
+                rgb.g = v;
+                rgb.b = t;
+                break;
+            case 3:
+                rgb.r = p;
+                rgb.g = q;
+                rgb.b = v;
+                break;
+            case 4:
+                rgb.r = t;
+                rgb.g = p;
+                rgb.b = v;
+                break;
+            case 5:
+                rgb.r = v;
+                rgb.g = p;
+                rgb.b = q;
+                break;
+        }
+
+        rgb.r = parseInt(rgb.r * 255);
+        rgb.g = parseInt(rgb.g * 255);
+        rgb.b = parseInt(rgb.b * 255);
+    }
+
+    return rgb;
+};
+
+kd.ColorValuePicker = Class.create();
+kd.ColorValuePicker.prototype = {
     initialize: function (id) {
 
         this.id = id;
@@ -69,7 +341,7 @@ Refresh.Web.ColorValuePicker.prototype = {
         Event.observe(this._diffHexInput3, 'blur', this._diffHexBlurEventListener);
         Event.observe(this._diffHexInput4, 'blur', this._diffHexBlurEventListener);
 
-        this.color = new Refresh.Web.Color();
+        this.color = new kd.Color();
 
         // get an initial value
         if (this._hexInput.value !== '') {
@@ -136,12 +408,12 @@ Refresh.Web.ColorValuePicker.prototype = {
             hex = r + g + b;
         }
 
-        const rgb = Refresh.Web.ColorMethods.hexToRgb(hex);
+        const rgb = kd.Color.hexToRgb(hex);
         // Re-set
-        e.target.value = Refresh.Web.ColorMethods.rgbToHex(rgb);
+        e.target.value = kd.Color.rgbToHex(rgb);
 
         const boxes = $('diff-results').select('.result');
-        const id = Number(e.target.id.substr('pdt-diff-hex-'.length));
+        const id = Number(e.target.id.substr('picker-diff-hex-'.length));
         if (isNaN(id)) {
             return;
         }
@@ -189,9 +461,9 @@ Refresh.Web.ColorValuePicker.prototype = {
             hex = r + g + b;
         }
 
-        const rgb = Refresh.Web.ColorMethods.hexToRgb(hex);
+        const rgb = kd.Color.hexToRgb(hex);
         // Re-set
-        e.target.value = Refresh.Web.ColorMethods.rgbToHex(rgb);
+        e.target.value = kd.Color.rgbToHex(rgb);
     },
     validateRgb: function (e) {
         if (!this._keyNeedsValidation(e)) {

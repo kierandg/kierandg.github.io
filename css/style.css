@@ -1,14 +1,16 @@
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: noto-sans, sans-serif;
+    font-style: normal;
+    font-weight: 100;
 }
 
 #main-frame, #diff-frame {
-    width: 700px;
+    width: 750px;
     height: 600px;
     margin: 0 auto;
     border: solid 1px #ddd;
     background-color: white;
-    font-size: 10pt;
+    font-size: 11pt;
 }
 
 .approx {
@@ -25,6 +27,7 @@ body {
 
 #results-frame {
     width: 1200px;
+    padding-top: 40px;
     margin: 0 auto;
 }
 
@@ -44,7 +47,7 @@ body {
 
 #cnh-main tr { line-height: 18px; }
 
-#pdt-preview-panel {
+#picker-preview-panel {
     background-color: #FFF;
     width: 105px;
     height: 30px;
@@ -150,14 +153,8 @@ div.title {
     width: 40px;
 }
 
-#pdt-clr-map {
+#picker-clr-map {
     width: 256px;
-    height: 256px;
-    border: solid 1px #000;
-}
-
-#pdt-clr-map {
-    width: 20px;
     height: 256px;
     border: solid 1px #000;
 }

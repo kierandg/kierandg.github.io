@@ -3,17 +3,13 @@
  MIT style license
  */
 
-if (!window.Refresh) {
-    Refresh = {};
+if (!window.kd) {
+    kd = {};
 }
 
-if (!Refresh.Web) {
-    Refresh.Web = {};
-}
+kd.SlidersList = [];
 
-Refresh.Web.SlidersList = [];
-
-Refresh.Web.DefaultSliderSettings = {
+kd.DefaultSliderSettings = {
     xMinValue: 0,
     xMaxValue: 100,
     yMinValue: 0,
@@ -22,15 +18,15 @@ Refresh.Web.DefaultSliderSettings = {
 };
 
 
-Refresh.Web.Slider = Class.create();
-Refresh.Web.Slider.prototype = {
+kd.Slider = Class.create();
+kd.Slider.prototype = {
     _bar: null,
     _arrow: null,
 
     initialize: function (id, settings) {
 
         this.id = id;
-        this.settings = Object.extend(Object.extend({}, Refresh.Web.DefaultSliderSettings), settings || {});
+        this.settings = Object.extend(Object.extend({}, kd.DefaultSliderSettings), settings || {});
 
         this.xValue = 0;
         this.yValue = 0;
@@ -69,7 +65,7 @@ Refresh.Web.Slider.prototype = {
         }
 
         // final setup
-        Refresh.Web.SlidersList.push(this);
+        kd.SlidersList.push(this);
     },
 
 
@@ -227,7 +223,7 @@ Refresh.Web.Slider.prototype = {
     },
 
     _mouseDown: function (e) {
-        Refresh.Web.ActiveSlider = this;
+        kd.ActiveSlider = this;
 
         this.setValuesFromMousePosition(e);
 

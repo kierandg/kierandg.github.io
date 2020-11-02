@@ -4367,6 +4367,13 @@ COLORS['brands'] = [
         ],
     },
     {
+        name: "SCMP – South China Morning Post",
+        colors: [
+            {hex: "#FFCA05", name: "SCMP – Amber"},
+            {hex: "#001246", name: "SCMP – Blue"},
+        ],
+    },
+    {
         name: "Scribd",
         colors: [
             {hex: "#1A7BBA", name: "Scribd 1"},

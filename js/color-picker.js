@@ -3,10 +3,12 @@
  MIT style license
  */
 
-if (!window.Refresh) Refresh = {};
-if (!Refresh.Web) Refresh.Web = {};
 
-Refresh.Web.DefaultColorPickerSettings = {
+if (!window.kd) {
+    kd = {};
+}
+
+kd.DefaultPickerSettings = {
     startMode: 'h',
     startHex: 'FF0000',
     clientFilesPath: 'images/'
@@ -37,11 +39,12 @@ function debounce(func, wait, immediate) {
     };
 }
 
-Refresh.Web.ColorPicker = Class.create();
-Refresh.Web.ColorPicker.prototype = {
+kd.ColorPicker = Class.create();
+kd.ColorPicker.prototype = {
+
     initialize: function (id, settings) {
         this.id = id;
-        this.settings = Object.extend(Object.extend({}, Refresh.Web.DefaultColorPickerSettings), settings || {});
+        this.settings = Object.extend(Object.extend({}, kd.DefaultPickerSettings), settings || {});
 
         // Mode checkbox
         this._basicCheckbox = $(this.id + '-basic-chk');
@@ -171,14 +174,14 @@ Refresh.Web.ColorPicker.prototype = {
         this._bar.appendChild(this._barL4);
 
         // attach map slider
-        this._map = new Refresh.Web.Slider(this._mapL2, {
+        this._map = new kd.Slider(this._mapL2, {
             xMaxValue: 255,
             yMinValue: 255,
             arrowImage: this.settings.clientFilesPath + 'mappoint.gif'
         });
 
         // attach color slider
-        this._slider = new Refresh.Web.Slider(this._barL4, {
+        this._slider = new kd.Slider(this._barL4, {
             xMinValue: 1,
             xMaxValue: 1,
             yMinValue: 255,
@@ -186,7 +189,7 @@ Refresh.Web.ColorPicker.prototype = {
         });
 
         // attach color values
-        this._cvp = new Refresh.Web.ColorValuePicker(this.id);
+        this._cvp = new kd.ColorValuePicker(this.id);
 
         // link up events
         const cp = this;
@@ -897,7 +900,7 @@ Refresh.Web.ColorPicker.prototype = {
         switch (this.colorMode) {
             case 'h':
                 // fake color with only hue
-                const color = new Refresh.Web.Color({h: this.color.h, s: 100, v: 100});
+                const color = new kd.Color({h: this.color.h, s: 100, v: 100});
                 this.setBackground(this._mapL1, color.hex);
                 break;
 
@@ -929,12 +932,12 @@ Refresh.Web.ColorPicker.prototype = {
                 break;
 
             case 's':
-                const saturatedColor = new Refresh.Web.Color({h: this.color.h, s: 100, v: this.color.v});
+                const saturatedColor = new kd.Color({h: this.color.h, s: 100, v: this.color.v});
                 this.setBackground(this._barL3, saturatedColor.hex);
                 break;
 
             case 'v':
-                const valueColor = new Refresh.Web.Color({h: this.color.h, s: this.color.s, v: 100});
+                const valueColor = new kd.Color({h: this.color.h, s: this.color.s, v: 100});
                 this.setBackground(this._barL3, valueColor.hex);
                 break;
 
