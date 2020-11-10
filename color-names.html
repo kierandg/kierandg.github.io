@@ -2,19 +2,19 @@
 <html lang="en-US">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Color Name & Hue</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>Color name & hue</title>
 
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/prototype/1.7.3/prototype.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prototype/1.7.3/prototype.min.js"
+            type="text/javascript"></script>
     <!-- Local fall-back copy -->
     <script type="text/javascript">
         if (!window.Prototype) {
             document.write('<script type="text/javascript" src="js/prototype-1.7.3.min.js"><\/script>');
         }
     </script>
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"
+            type="text/javascript"></script>
     <!-- Local fall-back copy -->
     <script type="text/javascript">
         if (!window.requirejs) {
@@ -22,21 +22,46 @@
         }
     </script>
 
-    <script type="text/javascript" src="js/on-dom-ready.js"></script>
-    <script type="text/javascript" src="js/color-methods.js"></script>
-    <script type="text/javascript" src="js/color-value-picker.js"></script>
-    <script type="text/javascript" src="js/slider-jd.js"></script>
-    <script type="text/javascript" src="js/colors.js"></script>
-    <script type="text/javascript" src="js/colors.js"></script>
-    <script type="text/javascript" src="js/color-picker.js"></script>
+    <script src="js/on-dom-ready.js" type="text/javascript"></script>
+    <script src="js/color-value-picker.js" type="text/javascript"></script>
+    <script src="js/slider-jd.js" type="text/javascript"></script>
+    <script src="js/colors.js" type="text/javascript"></script>
+    <script src="js/color-picker.js" type="text/javascript"></script>
 
     <script type="text/javascript"><!--
     Event.onReady(function () {
-        const cp1 = new Refresh.Web.ColorPicker('pdt', {startHex: '00968F', startMode: 's'});
+        const cp1 = new kd.ColorPicker('picker', {startHex: '00968F', startMode: 's'});
     });
     --></script>
 
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <!---
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&amp;subset=cyrillic,latin-ext" rel="stylesheet">
+    -->
+
+    <script type="text/javascript">
+        const loadFont = (url) => {
+            // the 'fetch' equivalent has caching issues
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let css = xhr.responseText;
+                    css = css.replace(/}/g, 'font-display: swap; }');
+
+                    const head = document.getElementsByTagName('head')[0];
+                    const style = document.createElement('style');
+                    style.appendChild(document.createTextNode(css));
+                    head.appendChild(style);
+                }
+            };
+
+            xhr.send();
+        };
+
+        loadFont('https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&amp;subset=cyrillic,latin-ext');
+    </script>
+
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <!--
@@ -114,20 +139,20 @@
     <img alt="" src="images/map-blue-min.png"/>
 </div>
 <div id="main-frame">
-    <div id="title-frame">Color name & Hue</div>
+    <div id="title-frame">Color name & hue</div>
     <table id="cnh-main">
         <tr>
             <td valign="top">
-                <div id="pdt-clr-map"></div>
+                <div id="picker-clr-map"></div>
             </td>
             <td valign="top">
-                <div id="pdt-clr-bar"></div>
+                <div id="picker-clr-bar"></div>
             </td>
             <td valign="top">
                 <table>
                     <tr>
                         <td colspan="3">
-                            <div id="pdt-preview-panel">&nbsp;</div>
+                            <div id="picker-preview-panel">&nbsp;</div>
                         </td>
                     </tr>
                     <tr>
@@ -137,19 +162,19 @@
                         <td colspan="3">HSV/HSB</td>
                     </tr>
                     <tr>
-                        <td><input type="radio" id="pdt-hue-radio" name="pdt-edit-mode" value="0"/></td>
-                        <td><label for="pdt-hue-radio">H</label></td>
-                        <td><input type="text" id="pdt-hue" value="0"/> &deg;</td>
+                        <td><input id="picker-hue-radio" name="picker-edit-mode" type="radio" value="0"/></td>
+                        <td><label for="picker-hue-radio">H</label></td>
+                        <td><input id="picker-hue" type="text" value="0"/> &deg;</td>
                     </tr>
                     <tr>
-                        <td><input type="radio" id="pdt-saturation-radio" name="pdt-edit-mode" value="1"/></td>
-                        <td><label for="pdt-saturation-radio">S</label></td>
-                        <td><input type="text" id="pdt-saturation" value="100"/> %</td>
+                        <td><input id="picker-saturation-radio" name="picker-edit-mode" type="radio" value="1"/></td>
+                        <td><label for="picker-saturation-radio">S</label></td>
+                        <td><input id="picker-saturation" type="text" value="100"/> %</td>
                     </tr>
                     <tr>
-                        <td><input type="radio" id="pdt-brightness-radio" name="pdt-edit-mode" value="2"/></td>
-                        <td><label for="pdt-brightness-radio">V/B</label></td>
-                        <td><input type="text" id="pdt-brightness" value="100"/> %</td>
+                        <td><input id="picker-brightness-radio" name="picker-edit-mode" type="radio" value="2"/></td>
+                        <td><label for="picker-brightness-radio">V/B</label></td>
+                        <td><input id="picker-brightness" type="text" value="100"/> %</td>
                     </tr>
                     <tr>
                         <td colspan="3"></td>
@@ -158,25 +183,25 @@
                         <td colspan="3">RGB</td>
                     </tr>
                     <tr>
-                        <td><input type="radio" id="pdt-red-radio" name="pdt-edit-mode" value="r"/></td>
-                        <td><label for="pdt-red-radio">R</label></td>
-                        <td><input type="text" id="pdt-red" value="255"/></td>
+                        <td><input id="picker-red-radio" name="picker-edit-mode" type="radio" value="r"/></td>
+                        <td><label for="picker-red-radio">R</label></td>
+                        <td><input id="picker-red" type="text" value="255"/></td>
                     </tr>
                     <tr>
-                        <td><input type="radio" id="pdt-green-radio" name="pdt-edit-mode" value="g"/></td>
-                        <td><label for="pdt-green-radio">G</label></td>
-                        <td><input type="text" id="pdt-green" value="0"/></td>
+                        <td><input id="picker-green-radio" name="picker-edit-mode" type="radio" value="g"/></td>
+                        <td><label for="picker-green-radio">G</label></td>
+                        <td><input id="picker-green" type="text" value="0"/></td>
                     </tr>
                     <tr>
-                        <td><input type="radio" id="pdt-blue-radio" name="pdt-edit-mode" value="b"/></td>
-                        <td><label for="pdt-blue-radio">B</label></td>
-                        <td><input type="text" id="pdt-blue" value="0"/></td>
+                        <td><input id="picker-blue-radio" name="picker-edit-mode" type="radio" value="b"/></td>
+                        <td><label for="picker-blue-radio">B</label></td>
+                        <td><input id="picker-blue" type="text" value="0"/></td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td valign="top" colspan="2">
+            <td colspan="2" valign="top">
                 <table>
                     <tr>
                         <td colspan="2">&nbsp;</td>
@@ -184,37 +209,37 @@
                     <tr>
                         <td class="title"><span class="note">CIE-Lab</span></td>
                         <td>
-                            <div id="pdt-lab-label" style="font-style:italic; float:left;"></div>
+                            <div id="picker-lab-label" style="font-style:italic; float:left;"></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="title"><span class="note">HSL</span></td>
                         <td>
-                            <div id="pdt-hsl-label" style="font-style:italic; float:left;"></div>
+                            <div id="picker-hsl-label" style="font-style:italic; float:left;"></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="title"><span class="note">HSV/B</span></td>
                         <td>
-                            <div id="pdt-hsv-label" style="font-style:italic; float:left;"></div>
+                            <div id="picker-hsv-label" style="font-style:italic; float:left;"></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="title"><span class="note">CMYK</span></td>
                         <td>
-                            <div id="pdt-cmyk-label" style="font-style:italic; float:left;"></div>
+                            <div id="picker-cmyk-label" style="font-style:italic; float:left;"></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="title"><span class="note">LRV</span></td>
                         <td>
-                            <div id="pdt-lrv-label" style="font-style:italic; float:left;"></div>
+                            <div id="picker-lrv-label" style="font-style:italic; float:left;"></div>
                         </td>
                     </tr>
                     <tr>
                         <td class="title"><span class="note">Wavelength</span></td>
                         <td>
-                            <div id="pdt-wl-label" style="font-style:italic; float:left;"></div>
+                            <div id="picker-wl-label" style="font-style:italic; float:left;"></div>
                         </td>
                     </tr>
                 </table>
@@ -229,7 +254,7 @@
                     </tr>
                     <tr>
                         <td align="right">#</td>
-                        <td colspan="2"><input type="text" id="pdt-hex" value="000000" style="width: 60px;"/></td>
+                        <td colspan="2"><input id="picker-hex" style="width: 60px;" type="text" value="000000"/></td>
                     </tr>
                     <tr>
                         <td colspan="3">Distance</td>
@@ -237,8 +262,8 @@
                     <tr>
                         <td style="padding-left:7px;"></td>
                         <td colspan="2">
-                            <select id="pdt-range-sel">
-                                <option value="0" selected="">0</option>
+                            <select id="picker-range-sel">
+                                <option selected="" value="0">0</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="4">4</option>
@@ -259,36 +284,37 @@
         <tr>
             <td class="title"><span class="note">Source</span></td>
             <td>
-                <input type="checkbox" id="pdt-basic-chk" value="basic" checked="checked"/>&nbsp;Basic&nbsp;
-                <input type="checkbox" id="pdt-inspirations-chk" value="inspirations" checked="checked"/>&nbsp;Inspirations&nbsp;
-                <input type="checkbox" id="pdt-brands-chk" value="brands" checked="checked"/>&nbsp;Brands&nbsp;
-                <input type="checkbox" id="pdt-schools-chk" value="schools" checked="checked"/>&nbsp;Schools&nbsp;
-                <input type="checkbox" id="pdt-teams-chk" value="sport" checked="checked"/>&nbsp;Teams&nbsp;
-                <input type="checkbox" id="pdt-pantone-chk" value="pantone-c" checked="checked"/>&nbsp;Pantone®&nbsp;
-                <input type="checkbox" id="pdt-uncheck-all-chk" value="uncheck"/>&nbsp;Uncheck all&nbsp;
+                <input checked="checked" id="picker-basic-chk" type="checkbox" value="basic"/>&nbsp;Basic&nbsp;
+                <input checked="checked" id="picker-inspirations-chk" type="checkbox" value="inspirations"/>&nbsp;Inspirations&nbsp;
+                <input checked="checked" id="picker-brands-chk" type="checkbox" value="brands"/>&nbsp;Brands&nbsp;
+                <input checked="checked" id="picker-schools-chk" type="checkbox" value="schools"/>&nbsp;Schools&nbsp;
+                <input checked="checked" id="picker-teams-chk" type="checkbox" value="sport"/>&nbsp;Teams&nbsp;
+                <input checked="checked" id="picker-pantone-chk" type="checkbox" value="pantone-c"/>&nbsp;Pantone®&nbsp;
+                <input id="picker-uncheck-all-chk" type="checkbox" value="uncheck"/>&nbsp;Uncheck all&nbsp;
             </td>
         </tr>
         <tr>
             <td class="title"><span class="note">Distance</span></td>
             <td>
-                <input type="checkbox" id="pdt-de2000-chk" value="de2000" checked="checked" onclick="(function (e) {
+                <input checked="checked" id="picker-de2000-chk" onclick="(function (e) {
                     $('de2000-results').toggle();
-                })();"/>&nbsp;Delta-E 2000&nbsp;
-                <input type="checkbox" id="pdt-euclidean-chk" value="euclidean" onclick="(function (e) {
+                })();" type="checkbox" value="de2000"/>&nbsp;Delta-E 2000&nbsp;
+                <input id="picker-euclidean-chk" onclick="(function (e) {
                     $('euclidean-results').toggle();
-                })();"/>&nbsp;Euclidean&nbsp;
+                })();" type="checkbox" value="euclidean"/>&nbsp;Euclidean&nbsp;
             </td>
         </tr>
         <tr>
             <td class="title"><span class="note">Tools</span></td>
             <td>
-                <input type="checkbox" id="pdt-diff-chk" value="diff" onclick="(function (e) {
+                <input id="picker-diff-chk" onclick="(function (e) {
                     $('diff-frame').toggle();
-                })();"/>&nbsp;Differences&nbsp;
-                <input type="checkbox" id="pdt-contrast-chk" value="contrast" onclick="(function (e) {
+                })();" type="checkbox" value="diff"/>&nbsp;Differences&nbsp;
+                <input id="picker-contrast-chk" onclick="(function (e) {
                     $('contrast-frame').toggle();
-                })();"/>&nbsp;<a href="https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef"
-                                 title="WCAG - Contrast ratio">Contrast</a>&nbsp;
+                })();" type="checkbox" value="contrast"/>&nbsp;<a
+                    href="https://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef"
+                    title="WCAG - Contrast ratio">Contrast</a>&nbsp;
             </td>
         </tr>
     </table>
@@ -297,29 +323,29 @@
     <table>
         <tr>
             <td class="title">Base</td>
-            <td># <input type="text" id="pdt-diff-hex-1" value="00968F" style="width: 60px;"/></td>
+            <td># <input id="picker-diff-hex-1" style="width: 60px;" type="text" value="00968F"/></td>
             <td class="title">Hex</td>
-            <td># <input type="text" id="pdt-diff-hex-2" value="006BA6" style="width: 60px;"/></td>
+            <td># <input id="picker-diff-hex-2" style="width: 60px;" type="text" value="006BA6"/></td>
             <td class="title">Hex</td>
-            <td># <input type="text" id="pdt-diff-hex-3" value="F8485E" style="width: 60px;"/></td>
+            <td># <input id="picker-diff-hex-3" style="width: 60px;" type="text" value="F8485E"/></td>
             <td class="title">Hex</td>
-            <td># <input type="text" id="pdt-diff-hex-4" value="FFC72C" style="width: 60px;"/></td>
+            <td># <input id="picker-diff-hex-4" style="width: 60px;" type="text" value="FFC72C"/></td>
         </tr>
     </table>
     <table>
         <tr>
             <td style="padding-left: 20px;">
-                <div id="diff-results" class="color-boxes">
+                <div class="color-boxes" id="diff-results">
                     <div class="result" data-hex="#00968F">
                         <table>
                             <tr>
                                 <td>
                                     <div class="hex">#00968F</div>
                                     <div class="rgb">(0, 150, 143)</div>
-                                    <div title="#00968F" class="box" style="background-color: #00968F">&nbsp;</div>
+                                    <div class="box" style="background-color: #00968F" title="#00968F">&nbsp;</div>
                                     <div class="name"></div>
                                     <div class="dist">(ΔE = --)</div>
-                                    <div title="Teal (Dark cyan)" class="shade" style="background-color: #008080;">
+                                    <div class="shade" style="background-color: #008080;" title="Teal (Dark cyan)">
                                         &nbsp;
                                     </div>
                                 </td>
@@ -332,10 +358,10 @@
                                 <td>
                                     <div class="hex">#006BA6</div>
                                     <div class="rgb">(0, 107, 166)</div>
-                                    <div title="#006BA6" class="box" style="background-color: #006BA6">&nbsp;</div>
+                                    <div class="box" style="background-color: #006BA6" title="#006BA6">&nbsp;</div>
                                     <div class="name"></div>
                                     <div class="dist">(ΔE = --)</div>
-                                    <div title="Azure (Cyan‒Blue)" class="shade" style="background-color: #007FFF;">
+                                    <div class="shade" style="background-color: #007FFF;" title="Azure (Cyan‒Blue)">
                                         &nbsp;
                                     </div>
                                 </td>
@@ -348,10 +374,10 @@
                                 <td>
                                     <div class="hex">#F8485E</div>
                                     <div class="rgb">(248, 72, 94)</div>
-                                    <div title="#F8485E" class="box" style="background-color: #F8485E">&nbsp;</div>
+                                    <div class="box" style="background-color: #F8485E" title="#F8485E">&nbsp;</div>
                                     <div class="name"></div>
                                     <div class="dist">(ΔE = --)</div>
-                                    <div title="Rose (Magenta‒Pink)" class="shade" style="background-color: #FF007F;">
+                                    <div class="shade" style="background-color: #FF007F;" title="Rose (Magenta‒Pink)">
                                         &nbsp;
                                     </div>
                                 </td>
@@ -364,10 +390,10 @@
                                 <td>
                                     <div class="hex">#FFC72C</div>
                                     <div class="rgb">(255, 199, 44)</div>
-                                    <div title="#FFC72C" class="box" style="background-color: #FFC72C">&nbsp;</div>
+                                    <div class="box" style="background-color: #FFC72C" title="#FFC72C">&nbsp;</div>
                                     <div class="name"></div>
                                     <div class="dist">(ΔE = --)</div>
-                                    <div title="Orange‒Yellow (Amber)" class="shade" style="background-color: #FFBF00;">
+                                    <div class="shade" style="background-color: #FFBF00;" title="Orange‒Yellow (Amber)">
                                         &nbsp;
                                     </div>
                                 </td>
@@ -383,14 +409,14 @@
     <div class="results-options">
         <div class="color-title"><strong>Color spaces</strong></div>
         <div class="btn-group">
-            <input type="radio" name="color-space" value="RGB" checked="checked"/>RGB
-            <input type="radio" name="color-space" value="LCH"/>CMYK
-            <input type="radio" name="color-space" value="HSV"/>HSV
-            <input type="radio" name="color-space" value="Lab"/>Lab
-            <input type="radio" name="color-space" value="LCH"/>LCH
+            <input checked="checked" name="color-space" type="radio" value="RGB"/>RGB
+            <input name="color-space" type="radio" value="LCH"/>CMYK
+            <input name="color-space" type="radio" value="HSV"/>HSV
+            <input name="color-space" type="radio" value="Lab"/>Lab
+            <input name="color-space" type="radio" value="LCH"/>LCH
         </div>
     </div>
-    <div id="de2000-results" class="color-boxes">
+    <div class="color-boxes" id="de2000-results">
         <div class="color-title"><strong>Delta-E 2000</strong></div>
         <div class="result"></div>
         <div class="result"></div>
@@ -413,7 +439,7 @@
         <div class="result"></div>
         <div class="result"></div>
     </div>
-    <div id="euclidean-results" class="color-boxes" style="display: none;">
+    <div class="color-boxes" id="euclidean-results" style="display: none;">
         <div class="color-title"><strong>Euclidean (RGB + 2 * HSL)</strong></div>
         <div class="result"></div>
         <div class="result"></div>
@@ -436,7 +462,7 @@
         <div class="result"></div>
         <div class="result"></div>
     </div>
-    <div id="related-results" class="color-boxes">
+    <div class="color-boxes" id="related-results">
         <div class="color-title"><strong>Related colors</strong></div>
         <div id="euclidean-related">
             <div class="title"></div>
@@ -485,18 +511,18 @@
             <div class="result"></div>
         </div>
     </div>
-    <div id="fpt-tv" class="fpt-tv color-boxes">
-        <div style="padding-top: 120px;" class="color-title"><strong>FPT TV</strong></div>
+    <div class="fpt-tv color-boxes" id="fpt-tv">
+        <div class="color-title" style="padding-top: 80px;"><strong>FPT TV</strong></div>
         <div class="result" data-hex="#009A44">
             <table>
                 <tr>
                     <td>
                         <div class="hex">#009A44</div>
                         <div class="rgb">(0, 154, 68)</div>
-                        <div title="Forest green" class="box" style="background-color: #009A44">&nbsp;</div>
+                        <div class="box" style="background-color: #009A44" title="Forest green">&nbsp;</div>
                         <div class="name">Forest Green</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Green" class="shade" style="background-color: #008000;">&nbsp;</div>
+                        <div class="shade" style="background-color: #008000;" title="Green">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -507,10 +533,10 @@
                     <td>
                         <div class="hex">#00968F</div>
                         <div class="rgb">(0, 150, 143)</div>
-                        <div title="Ocean wave" class="box" style="background-color: #00968F">&nbsp;</div>
+                        <div class="box" style="background-color: #00968F" title="Ocean wave">&nbsp;</div>
                         <div class="name">Ocean Wave</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Teal (Dark cyan)" class="shade" style="background-color: #008080;">&nbsp;</div>
+                        <div class="shade" style="background-color: #008080;" title="Teal (Dark cyan)">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -521,10 +547,10 @@
                     <td>
                         <div class="hex">#006BA6</div>
                         <div class="rgb">(0, 107, 166)</div>
-                        <div title="Cerulean blue" class="box" style="background-color: #006BA6">&nbsp;</div>
+                        <div class="box" style="background-color: #006BA6" title="Cerulean blue">&nbsp;</div>
                         <div class="name">Cerulean Blue</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Azure (Cyan‒Blue)" class="shade" style="background-color: #007FFF;">&nbsp;</div>
+                        <div class="shade" style="background-color: #007FFF;" title="Azure (Cyan‒Blue)">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -535,10 +561,10 @@
                     <td>
                         <div class="hex">#F8485E</div>
                         <div class="rgb">(248, 72, 94)</div>
-                        <div title="Raspberry" class="box" style="background-color: #F8485E">&nbsp;</div>
+                        <div class="box" style="background-color: #F8485E" title="Raspberry">&nbsp;</div>
                         <div class="name">Raspberry</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Rose (Magenta‒Pink)" class="shade" style="background-color: #FF007F;">&nbsp;</div>
+                        <div class="shade" style="background-color: #FF007F;" title="Rose (Magenta‒Pink)">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -549,10 +575,10 @@
                     <td>
                         <div class="hex">#FFC72C</div>
                         <div class="rgb">(255, 199, 44)</div>
-                        <div title="Sunglow" class="box" style="background-color: #FFC72C">&nbsp;</div>
+                        <div class="box" style="background-color: #FFC72C" title="Sunglow">&nbsp;</div>
                         <div class="name">Sunglow</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Orange‒Yellow (Amber)" class="shade" style="background-color: #FFBF00;">&nbsp;</div>
+                        <div class="shade" style="background-color: #FFBF00;" title="Orange‒Yellow (Amber)">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -563,7 +589,7 @@
         <div class="result"></div>
         <div class="result"></div>
     </div>
-    <div id="fpt-tv-additional" class="fpt-tv color-boxes">
+    <div class="fpt-tv color-boxes" id="fpt-tv-additional">
         <div class="color-title"><strong>FPT TV secondary colors</strong></div>
         <div class="result" data-hex="#FF8200">
             <table>
@@ -571,10 +597,10 @@
                     <td>
                         <div class="hex">#FF8200</div>
                         <div class="rgb">(255, 130, 0)</div>
-                        <div title="Orange juice" class="box" style="background-color: #FF8200">&nbsp;</div>
+                        <div class="box" style="background-color: #FF8200" title="Orange juice">&nbsp;</div>
                         <div class="name">Orange Juice</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Orange" class="shade" style="background-color: #FF7F00;">&nbsp;</div>
+                        <div class="shade" style="background-color: #FF7F00;" title="Orange">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -585,10 +611,10 @@
                     <td>
                         <div class="hex">#719949</div>
                         <div class="rgb">(113, 153, 73)</div>
-                        <div title="Asparagus green" class="box" style="background-color: #719949">&nbsp;</div>
+                        <div class="box" style="background-color: #719949" title="Asparagus green">&nbsp;</div>
                         <div class="name">Asparagus Green</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Green" class="shade" style="background-color: #008000;">&nbsp;</div>
+                        <div class="shade" style="background-color: #008000;" title="Green">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -599,10 +625,10 @@
                     <td>
                         <div class="hex">#514689</div>
                         <div class="rgb">(81, 70, 137)</div>
-                        <div title="Purple blueberry" class="box" style="background-color: #514689">&nbsp;</div>
+                        <div class="box" style="background-color: #514689" title="Purple blueberry">&nbsp;</div>
                         <div class="name">Purple Blueberry</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Purple" class="shade" style="background-color: #800080;">&nbsp;</div>
+                        <div class="shade" style="background-color: #800080;" title="Purple">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -613,10 +639,10 @@
                     <td>
                         <div class="hex">#222223</div>
                         <div class="rgb">(34, 34, 35)</div>
-                        <div title="Bluish gray" class="box" style="background-color: #222223">&nbsp;</div>
+                        <div class="box" style="background-color: #222223" title="Bluish gray">&nbsp;</div>
                         <div class="name">Bluish Gray</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Black" class="shade" style="background-color: #000000;">&nbsp;</div>
+                        <div class="shade" style="background-color: #000000;" title="Black">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -628,7 +654,7 @@
         <div class="result"></div>
         <div class="result"></div>
     </div>
-    <div id="fpt-tv-sport" class="fpt-tv color-boxes">
+    <div class="fpt-tv color-boxes" id="fpt-tv-sport">
         <div class="color-title"><strong>FPT TV sport colors</strong></div>
         <div class="result" data-hex="#91D2F2">
             <table>
@@ -636,10 +662,10 @@
                     <td>
                         <div class="hex">#91D2F2</div>
                         <div class="rgb">(145, 210, 242)</div>
-                        <div title="Sky blue" class="box" style="background-color: #91D2F2">&nbsp;</div>
+                        <div class="box" style="background-color: #91D2F2" title="Sky blue">&nbsp;</div>
                         <div class="name">Sky Blue</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Cyan (Blue‒Green)" class="shade" style="background-color: #00FFFF;">&nbsp;</div>
+                        <div class="shade" style="background-color: #00FFFF;" title="Cyan (Blue‒Green)">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -650,10 +676,10 @@
                     <td>
                         <div class="hex">#007DBA</div>
                         <div class="rgb">(0, 125, 186)</div>
-                        <div title="Ocean blue" class="box" style="background-color: #007DBA">&nbsp;</div>
+                        <div class="box" style="background-color: #007DBA" title="Ocean blue">&nbsp;</div>
                         <div class="name">Ocean Blue</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Azure (Cyan‒Blue)" class="shade" style="background-color: #007FFF;">&nbsp;</div>
+                        <div class="shade" style="background-color: #007FFF;" title="Azure (Cyan‒Blue)">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -664,10 +690,10 @@
                     <td>
                         <div class="hex">#00205B</div>
                         <div class="rgb">(0, 32, 91)</div>
-                        <div title="Navy" class="box" style="background-color: #00205B">&nbsp;</div>
+                        <div class="box" style="background-color: #00205B" title="Navy">&nbsp;</div>
                         <div class="name">Navy</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Blue" class="shade" style="background-color: #0000FF;">&nbsp;</div>
+                        <div class="shade" style="background-color: #0000FF;" title="Blue">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -678,10 +704,10 @@
                     <td>
                         <div class="hex">#E57200</div>
                         <div class="rgb">(229, 114, 0)</div>
-                        <div title="Orange" class="box" style="background-color: #E57200">&nbsp;</div>
+                        <div class="box" style="background-color: #E57200" title="Orange">&nbsp;</div>
                         <div class="name">Orange</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Orange" class="shade" style="background-color: #FF7F00;">&nbsp;</div>
+                        <div class="shade" style="background-color: #FF7F00;" title="Orange">&nbsp;</div>
                     </td>
                 </tr>
             </table>
@@ -692,10 +718,10 @@
                     <td>
                         <div class="hex">#E8291C</div>
                         <div class="rgb">(232, 41, 28)</div>
-                        <div title="Red" class="box" style="background-color: #E8291C">&nbsp;</div>
+                        <div class="box" style="background-color: #E8291C" title="Red">&nbsp;</div>
                         <div class="name">Red</div>
                         <div class="dist">(ΔE = --)</div>
-                        <div title="Red" class="shade" style="background-color: #FF0000;">&nbsp;</div>
+                        <div class="shade" style="background-color: #FF0000;" title="Red">&nbsp;</div>
                     </td>
                 </tr>
             </table>
